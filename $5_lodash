@@ -1,0 +1,6 @@
+//Lodahs is a javascript utility library.
+//nodemon is a tool that automatically restart the application whenever there is a change in the directory.  
+const lod= require('lodash');
+const items=[2,[4,5,[8,5,[9,[2]]],[4],[10]]];
+//flattenDeep gives a flat array.
+console.log(lod.flattenDeep(items));

@@ -1,12 +1,16 @@
-const HTTP= require('http');
-const server=HTTP.createServer((req,respond)=>{
-    if(req.url==='/about'){
-        respond.end(`<h1>This is about page</h1>`)
-    }if(req.url==='/'){
-        respond.write("this is home")
-        respond.end();
-    } respond.end('<p>Oopes some other page</p><span>Got to</span><a href="/">Home</a>')
-    
-})
-server.listen(2000);
-//erroe occurs when yout try to send more than one response
+const {readFile}=require("fs");
+
+const POST = (Path)=>{
+    return new Promise((resolve,reject)=>{
+         readFile(Path,"utf-8",(err,results)=>{
+           if(err){
+            reject(err);
+           }
+           resolve(results);
+         })
+    })
+
+}
+POST("./Content/text1.txt")
+.then(res=>console.log(res))
+.catch(err=>console.error(err));
