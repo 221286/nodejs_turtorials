@@ -1,16 +1,20 @@
-const {readFile}=require("fs");
-
-const POST = (Path)=>{
-    return new Promise((resolve,reject)=>{
-         readFile(Path,"utf-8",(err,results)=>{
-           if(err){
-            reject(err);
-           }
-           resolve(results);
-         })
+const { createReadStream}= require(`fs`);
+const {createServer}= require(`http`);
+const server= createServer();
+server.on('request',(req,res)=>{
+    //As we can see we can control the data using the highwatermark attributes.
+    const text=createReadStream(`./Content/good.txt`,{highWaterMark:70,encoding:`utf-8`});
+   /* text.on('data',(result)=>{
+        res.end(result);
     })
+    */
+   text.on('open',()=>{
+    //pipe function writes the readed code
+     text.pipe(res);
+   })
+   text.on('error',(err)=>{
+    res.end(err);
+   })
+})
 
-}
-POST("./Content/text1.txt")
-.then(res=>console.log(res))
-.catch(err=>console.error(err));
+server.listen(4000);
